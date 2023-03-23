@@ -29,10 +29,10 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<HomePage> createState() => BallPageState();
+  State<HomePage> createState() => _BallPageState();
 }
 
-class BallPageState extends State<HomePage> {
+class _BallPageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,9 +53,7 @@ class BallPageState extends State<HomePage> {
                         setState(() {
                           number = Random().nextInt(5) + 1;
                         });
-                        // if (kDebugMode) {
-                        //   print(number);
-                        // }
+                        print(number);
                       },
                       child: Image.asset('assets/image/ball$number.png')),
                 ),
