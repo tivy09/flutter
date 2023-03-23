@@ -41,22 +41,27 @@ class BallPageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Ask me anything"),
       ),
-      body: Center(
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        number = Random().nextInt(5) + 1;
-                      });
-                    },
-                    child: Image.asset('assets/image/ball$number.png')),
-              ),
-            )
-          ],
+      body: Container(
+        child: Center(
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          number = Random().nextInt(5) + 1;
+                        });
+                        // if (kDebugMode) {
+                        //   print(number);
+                        // }
+                      },
+                      child: Image.asset('assets/image/ball$number.png')),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     ));
