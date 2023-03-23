@@ -15,21 +15,30 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const QuizPage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class QuizPage extends StatefulWidget {
-  const QuizPage({super.key, required this.title});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
 
   final String title;
 
   @override
-  State<QuizPage> createState() => _QuizPage();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _QuizPage extends State<QuizPage> {
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,17 +58,14 @@ class DiceWidget extends StatelessWidget {
   const DiceWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children:[
-        Expanded(
-          flex:7,
-          child: Center(child: Text('This is were the question is going to go'
-          style: TextStyle(color: Colors.white70,fontSize: 20),
-          textAlign: TextAlign.center,),
-
-        ))
-      ],
-    )
+    return Center(
+      child: Row(
+        children: [
+          Expanded(
+              child: TextButton(
+                  onPressed: () {}, child: Image.asset('lib/assets/1.jpg')))
+        ],
+      ),
+    );
   }
 }
