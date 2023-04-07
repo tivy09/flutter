@@ -1,27 +1,127 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial2/story_brain.dart';
-import 'story.dart';
-// import 'package:rflutter_alert/rflutter_alert.dart';
+
+//TODO: Step 15 - Run the app and see if you can see the screen update with the first story. Delete this TODO if it looks as you expected.
 
 StoryBrain storyBrain = StoryBrain();
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const AdventureGame());
 
-// Basic UI of the App
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class AdventureGame extends StatelessWidget {
+  const AdventureGame({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.black,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: StoryPage(),
+      theme: ThemeData.dark(), // we are using the dark theme
+      home: const StoryPage(),
+    );
+  }
+}
+
+//TODO: Step 9 - Create a new storyBrain object from the StoryBrain class.
+
+class StoryPage extends StatefulWidget {
+  const StoryPage({super.key});
+
+  @override
+  State<StoryPage> createState() => _StoryPageState();
+}
+
+class _StoryPageState extends State<StoryPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        //TODO: Step 1 - Find a background image, add the background image into the images directory, then add the background image to this Container.
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/image/1.jpeg"), fit: BoxFit.cover),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 15.0),
+        constraints: const BoxConstraints.expand(),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                flex: 12,
+                child: Center(
+                  child: Text(
+                    //TODO: Step 10 - use the storyBrain to get the first story title and display it in this Text Widget.
+                    storyBrain.getStory(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 25.0,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: TextButton(
+                  onPressed: () {
+                    // Choice 1 made by user
+                    storyBrain.getChoice1();
+                    //TODO: Step 18 - Call the nextStory() method from storyBrain and pass the number 1 as the choice made by the user.
+                    setState(() {
+                      storyBrain.nextStory(1);
+                    });
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.red),
+                    foregroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.white),
+                    shape: MaterialStateProperty.resolveWith(
+                        (states) => const BeveledRectangleBorder()),
+                  ),
+                  child: Text(
+                    //TODO: Step 13 - Use the storyBrain to get the text for choice 1.
+                    storyBrain.getChoice1(),
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Expanded(
+                flex: 2,
+                child: Visibility(
+                  //TODO: Step 26 - Use a Flutter Visibility Widget to wrap this TextButton.
+                  //TODO: Step 28 - Set the "visible" property of the Visibility Widget to equal the output from the buttonShouldBeVisible() method in the storyBrain.
+                  child: TextButton(
+                    onPressed: () {
+                      // Choice 2 made by user
+                      //TODO: Step 19 - Call the nextStory() method from storyBrain and pass the number 2 as the choice made by the user.
+                      setState(() {
+                        storyBrain.nextStory(2);
+                      });
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (states) => Colors.blue),
+                      foregroundColor: MaterialStateProperty.resolveWith(
+                          (states) => Colors.white),
+                      shape: MaterialStateProperty.resolveWith(
+                          (states) => const BeveledRectangleBorder()),
+                    ),
+                    child: Text(
+                      //TODO: Step 14 - Use the storyBrain to get the text for choice 2.
+                      storyBrain.getChoice2(),
+                      // 'Choice 2',
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -29,130 +129,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Which is going to change the state of the widget
-class StoryPage extends StatefulWidget {
-  const StoryPage({Key? key}) : super(key: key);
+//TODO: Step 24 - Run the app and try to figure out what code you need to add to this file to make the story change when you press on the choice buttons.
 
-  @override
-  State<StoryPage> createState() => _StoryPageState();
-}
-
-class _StoryPageState extends State<StoryPage> {
-  // To check whether user answer is correct or not
-  bool isCorrect = false;
-
-  // To keep track of our current position (with regards to the questions and answers)
-  int counter = 0;
-
-  // To keep track of the score by adding some icons into it
-  List<Icon> scoreKeeper = [];
-
-  void checkAnswer(bool userChoice) {
-    // if user clicked the true button and the answer is also true
-    if (storyBrain.getAnswer() == userChoice) {
-      isCorrect = true;
-    }
-
-    setState(
-      () {
-        // if user answer is correct
-        if (isCorrect) {
-          scoreKeeper.add(Icon(
-            Icons.check,
-            color: Colors.green,
-          ));
-        }
-        // if user answer is incorrect
-        else {
-          scoreKeeper.add(Icon(
-            Icons.close,
-            color: Colors.red,
-          ));
-        }
-
-        // reset the isCorrect value
-        isCorrect = false;
-
-        // if we are at the last question, reset to the first
-        // if (storyBrain.endOfQuestion()) {
-        //   // Show the alert first
-        //   Alert(
-        //           context: context,
-        //           title: "FINISH",
-        //           desc:
-        //               "Congratulations! You have reached the end of the quiz.")
-        //       .show();
-
-        //   storyBrain.resetCounter();
-        //   scoreKeeper.clear();
-        // }
-        // // else we are going to proceed to the next question
-        // else {
-        //   storyBrain.nextQuestion();
-        // }
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          flex: 7,
-          child: Center(
-            child: Text(
-              storyBrain.getQuestion(),
-              style: TextStyle(color: Colors.white70, fontSize: 20),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        // This is the true button
-        Expanded(
-          flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith(
-                      (states) => Colors.green),
-                  foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) => Colors.white),
-                  shape: MaterialStateProperty.resolveWith(
-                      (states) => BeveledRectangleBorder())),
-              child: Text('True'),
-              onPressed: () {
-                checkAnswer(true);
-              },
-            ),
-          ),
-        ),
-        // This is the false button
-        Expanded(
-          flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.resolveWith((states) => Colors.red),
-                  foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) => Colors.white),
-                  shape: MaterialStateProperty.resolveWith(
-                      (states) => BeveledRectangleBorder())),
-              child: Text('False'),
-              onPressed: () {
-                checkAnswer(false);
-              },
-            ),
-          ),
-        ),
-        Row(
-          children: scoreKeeper,
-        ),
-      ],
-    );
-  }
-}
+//TODO: Step 29 - Run the app and test it against the Story Outline to make sure you've completed all the steps.

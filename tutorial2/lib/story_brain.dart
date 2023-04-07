@@ -4,71 +4,100 @@ class StoryBrain {
   int _counter = 0;
 
   // To keep the questions and answers as matching pairs in a list object
-  List<Story> _StoryBank = [
-    Story(story: 'Are plants always green?', answer: false),
-    Story(story: 'Are boats always float?', answer: false),
+  final List<Story> _storyData = [
     Story(
-        story: 'Approximately one quarter of human bones are in the feet',
-        answer: true),
-    Story(story: 'Some cats are actually allergic to humans', answer: true),
+        storyTitle:
+            'Your car has blown a tire on a winding road in the middle of nowhere with no cell phone reception. You decide to hitchhike. A rusty pickup truck rumbles to a stop next to you. A man with a wide brimmed hat with soulless eyes opens the passenger door for you and asks: "Need a ride, boy?".',
+        choice1: 'I\'ll hop in. Thanks for the help!',
+        choice2: 'Better ask him if he\'s a murderer first.'),
     Story(
-        story: 'You can lead a cow down stairs but not up stairs.',
-        answer: false),
-    Story(story: 'A slug\'s blood is green.', answer: true),
+        storyTitle: 'He nods slowly, unphased by the question.',
+        choice1: 'At least he\'s honest. I\'ll climb in.',
+        choice2: 'Wait, I know how to change a tire.'),
     Story(
-        story: 'Buzz Aldrin\'s mother\'s maiden name was \"Moon\".',
-        answer: true),
+        storyTitle:
+            'As you begin to drive, the stranger starts talking about his relationship with his mother. He gets angrier and angrier by the minute. He asks you to open the glovebox. Inside you find a bloody knife, two severed fingers, and a cassette tape of Elton John. He reaches for the glove box.',
+        choice1: 'I love Elton John! Hand him the cassette tape.',
+        choice2: 'It\'s him or me! You take the knife and stab him.'),
     Story(
-        story: 'It is illegal to pee in the Ocean in Portugal.', answer: true),
+        storyTitle:
+            'What? Such a cop out! Did you know traffic accidents are the second leading cause of accidental death for most adult age groups?',
+        choice1: 'Restart',
+        choice2: ''),
     Story(
-        story:
-            'No piece of square dry paper can be folded in half more than 7 times.',
-        answer: false),
+        storyTitle:
+            'As you smash through the guardrail and careen towards the jagged rocks below you reflect on the dubious wisdom of stabbing someone while they are driving a car you are in.',
+        choice1: 'Restart',
+        choice2: ''),
     Story(
-        story:
-            'In London, UK, if you happen to die in the House of Parliament, you are technically entitled to a state funeral, because the building is considered too sacred a place.',
-        answer: true),
-    Story(
-        story:
-            'The loudest sound produced by any animal is 188 decibels. That animal is the African Elephant.',
-        answer: false),
-    Story(
-        story:
-            'The total surface area of two human lungs is approximately 70 square metres.',
-        answer: true),
-    Story(story: 'Google was originally called \"Backrub\".', answer: true),
-    Story(
-        story:
-            'Chocolate affects a dog\'s heart and nervous system; a few ounces are enough to kill a small dog.',
-        answer: true),
-    Story(
-        story:
-            'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.',
-        answer: true)
+        storyTitle:
+            'You bond with the murderer while crooning verses of "Can you feel the love tonight". He drops you off at the next town. Before you go he asks you if you know any good places to dump bodies. You reply: "Try the pier".',
+        choice1: 'Restart',
+        choice2: '')
   ];
 
-  void nextQuestion() {
-    _counter++;
+  String getStory() {
+    return _storyData[_counter].storyTitle;
   }
 
-  String getQuestion() {
-    return _StoryBank[_counter].story;
+  String getChoice1() {
+    return _storyData[_counter].choice1;
   }
 
-  bool getAnswer() {
-    return _StoryBank[_counter].answer;
+  String getChoice2() {
+    return _storyData[_counter].choice2;
   }
 
-  void resetCounter() {
+  void restart() {
     _counter = 0;
   }
 
-  int getTotalQuestion() {
-    return _StoryBank.length;
+  void nextStory(int userChoice) {
+    switch (userChoice) {
+      case 0:
+        if (userChoice == 1) {
+          _counter = 2;
+        } else {
+          _counter = 1;
+        }
+        break;
+
+      case 1:
+        if (userChoice == 1) {
+          _counter = 2;
+        } else {
+          _counter = 3;
+        }
+        break;
+
+      case 2:
+        if (userChoice == 1) {
+          _counter = 5;
+        } else {
+          _counter = 4;
+        }
+        break;
+
+      case 3:
+        restart();
+        break;
+
+      case 4:
+        restart();
+        break;
+
+      case 5:
+        restart();
+        break;
+
+      default:
+        break;
+    }
   }
 
-  bool endOfQuestion() {
-    if (_counter == _StoryBank.length - 1) {
+  //TODO: Step 27 - Create a method called buttonShouldBeVisible() which checks to see if storyNumber is 0 or 1 or 2 (when both buttons should show choices) and return true if that is the case, else it should return false.
+  bool buttonShouldBeVisible() {
+    if (_counter == 0 || _counter == 1 || _counter == 2) {
       return true;
     } else {
       return false;
