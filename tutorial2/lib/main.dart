@@ -90,8 +90,9 @@ class _StoryPageState extends State<StoryPage> {
                 height: 20.0,
               ),
               Expanded(
-                flex: 2,
+                flex: (storyBrain.buttonShouldBeVisible() == false)?0:2,
                 child: Visibility(
+                  visible: storyBrain.buttonShouldBeVisible(),
                   //TODO: Step 26 - Use a Flutter Visibility Widget to wrap this TextButton.
                   //TODO: Step 28 - Set the "visible" property of the Visibility Widget to equal the output from the buttonShouldBeVisible() method in the storyBrain.
                   child: TextButton(

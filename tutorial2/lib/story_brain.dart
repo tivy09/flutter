@@ -53,7 +53,7 @@ class StoryBrain {
   }
 
   void nextStory(int userChoice) {
-    switch (userChoice) {
+    switch (_counter) {
       case 0:
         if (userChoice == 1) {
           _counter = 2;
